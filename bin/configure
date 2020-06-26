@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+. "${INSTALLER_DIR}/wizard"
+
+input_start() {
+  wiz_put "openproject/edition"
+  if wiz_ask ; then
+    STATE="done"
+  else
+    STATE="start"
+  fi
+}
+
+state_machine() {
+  case "$1" in
+    "start")
+      input_start
+      ;;
+    "done")
+      echo "DONE"
+      exit 0
+      ;;
+    *)
+      echo "invalid state ${STATE}"
+      exit 1
+      ;;
+  esac
+}
+
+wizard "start"
