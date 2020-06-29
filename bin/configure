@@ -4,13 +4,41 @@ set -e
 
 . "${INSTALLER_DIR}/wizard"
 
+supported_distribution() {
+	case "$(wiz_fact "osfamily")" in
+		"debian")
+			case $(wiz_fact "osversion") in
+				"20.04")
+					return 0
+					;;
+				"10")
+					return 0
+					;;
+			esac
+			;;
+		"redhat")
+			case "$(wiz_fact "osversion")" in
+				8*)
+					return 0
+					;;
+			esac
+			;;
+	esac
+	return 1
+}
+
 input_start() {
-  wiz_put "openproject/edition"
-  if wiz_ask ; then
-    STATE="done"
-  else
-    STATE="start"
-  fi
+	if supported_distribution ; then
+		wiz_put "openproject/edition"
+		if wiz_ask ; then
+			STATE="done"
+		else
+			STATE="cancel"
+		fi
+	else
+		wiz_set "openproject/edition" "classic"
+		STATE="done"
+	fi
 }
 
 state_machine() {
@@ -21,6 +49,10 @@ state_machine() {
     "done")
       echo "DONE"
       exit 0
+      ;;
+    "cancel")
+      echo "CANCEL"
+      exit 1
       ;;
     *)
       echo "invalid state ${STATE}"
