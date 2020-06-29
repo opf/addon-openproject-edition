@@ -12,7 +12,7 @@ cleanup() {
 	rm -rf "$tmpdir"
 }
 
-trap INT TERM EXIT cleanup
+trap cleanup INT TERM EXIT
 
 if [ "$edition" = "bim" ]; then
 	cd $tmpdir
