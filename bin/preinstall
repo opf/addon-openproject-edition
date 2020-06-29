@@ -1,3 +1,40 @@
 #!/bin/bash
+set -e
 
-exit 0
+. ${INSTALLER_DIR}/wizard
+
+CLI="${APP_NAME}"
+edition="$(wiz_get "openproject/edition")"
+${CLI} config:set OPENPROJECT_EDITION="$edition"
+
+tmpdir="$(mktemp -d)"
+cleanup() {
+	rm -rf "$tmpdir"
+}
+
+trap INT TERM EXIT cleanup
+
+if [ "$edition" = "bim" ]; then
+	cd $tmpdir
+
+	# Install XKT converter
+	${CLI} run npm install xeokit/xeokit-gltf-to-xkt
+
+	# Install COLLADA2GLTF
+	wget --quiet https://github.com/KhronosGroup/COLLADA2GLTF/releases/download/v2.1.5/COLLADA2GLTF-v2.1.5-linux.zip
+	unzip -q COLLADA2GLTF-v2.1.5-linux.zip
+	mv COLLADA2GLTF-bin "$APP_HOME/bin/COLLADA2GLTF"
+
+	# IFCconvert
+	wget --quiet https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.6.0-9bcd932-linux64.zip
+	unzip -q IfcConvert-v0.6.0-9bcd932-linux64.zip
+	mv IfcConvert "$APP_HOME/bin/IfcConvert"
+
+	wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/0.0.5/xeokit-metadata-linux-x64.tar.gz
+	tar -zxvf xeokit-metadata-linux-x64.tar.gz
+	chmod +x xeokit-metadata-linux-x64/xeokit-metadata
+	# cp -r xeokit-metadata-linux-x64/ /usr/lib/xeokit-metadata
+	mv xeokit-metadata-linux-x64/xeokit-metadata "$APP_HOME/bin/xeokit-metadata"
+
+	rm -rf "$tmpdir"
+fi

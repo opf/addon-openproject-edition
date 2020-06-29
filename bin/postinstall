@@ -1,9 +1,3 @@
 #!/bin/bash
 
-set -e
-
-. ${INSTALLER_DIR}/wizard
-
-CLI="${APP_NAME}"
-edition="$(wiz_get "openproject/edition")"
-${CLI} config:set OPENPROJECT_EDITION="$edition"
+exit 0
