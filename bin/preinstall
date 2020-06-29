@@ -5,7 +5,6 @@ set -e
 
 CLI="${APP_NAME}"
 edition="$(wiz_get "openproject/edition")"
-${CLI} config:set OPENPROJECT_EDITION="$edition"
 
 tmpdir="$(mktemp -d)"
 cleanup() {
@@ -15,6 +14,7 @@ cleanup() {
 trap cleanup INT TERM EXIT
 
 if [ "$edition" = "bim" ]; then
+	${CLI} config:set OPENPROJECT_EDITION="$edition"
 	cd $tmpdir
 
 	# Install XKT converter
@@ -37,4 +37,6 @@ if [ "$edition" = "bim" ]; then
 	mv xeokit-metadata-linux-x64/xeokit-metadata "$APP_HOME/bin/xeokit-metadata"
 
 	rm -rf "$tmpdir"
+else
+	${CLI} config:unset OPENPROJECT_EDITION
 fi
