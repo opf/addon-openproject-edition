@@ -17,7 +17,7 @@ if [ "$edition" = "bim" ]; then
 	${CLI} config:set OPENPROJECT_EDITION="$edition"
 	cd $tmpdir
 
-	if ! ${CLI} run xeokit-gltf-to-xkt --help &>/dev/null ; then
+	if ! ${CLI} run gltf2xkt --help &>/dev/null ; then
 		echo "Fetching and installing xeokit-gltf-to-xkt..."
 		${CLI} run npm install xeokit/xeokit-gltf-to-xkt
 	fi
