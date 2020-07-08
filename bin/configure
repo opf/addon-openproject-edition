@@ -9,7 +9,7 @@ input_start() {
   if wiz_ask ; then
     STATE="done"
   else
-    STATE="start"
+    STATE="cancel"
   fi
 }
 
@@ -21,6 +21,10 @@ state_machine() {
     "done")
       echo "DONE"
       exit 0
+      ;;
+    "cancel")
+      echo "CANCEL"
+      exit 1
       ;;
     *)
       echo "invalid state ${STATE}"

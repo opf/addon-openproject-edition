@@ -11,10 +11,35 @@ cleanup() {
 	rm -rf "$tmpdir"
 }
 
+unsupported_distribution() {
+	echo "This distribution doesn't support OpenProject BIM edition yet."
+	exit 1
+}
+
 trap cleanup INT TERM EXIT
 
 if [ "$edition" = "bim" ]; then
 	${CLI} config:set OPENPROJECT_EDITION="$edition"
+
+        case $(wiz_fact "osfamily") in
+                "debian")
+                        case $(wiz_fact "osversion") in
+                                "20.04")
+					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/20.04/prod.list
+					apt-get update -qq
+					apt-get install -y liboce-foundation-dev liboce-modeling-dev liboce-ocaf-dev liboce-visualization-dev liboce-ocaf-lite-dev dotnet-runtime-3.1
+                                        ;;
+				*)
+					unsupported_distribution
+					;;
+                        esac
+			;;
+		*)
+			unsupported_distribution
+			;;
+	esac
+
 	cd $tmpdir
 
 	if ! ${CLI} run gltf2xkt --help &>/dev/null ; then
@@ -38,7 +63,7 @@ if [ "$edition" = "bim" ]; then
 
 	if ! ${CLI} run xeokit-metadata --help &>/dev/null ; then
 		echo "Fetching and installing xeokit-metadata..."
-		wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/0.0.5/xeokit-metadata-linux-x64.tar.gz
+		wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/1.0.0/xeokit-metadata-linux-x64.tar.gz
 		tar -zxvf xeokit-metadata-linux-x64.tar.gz
 		chmod +x xeokit-metadata-linux-x64/xeokit-metadata
 		cp -r xeokit-metadata-linux-x64/ "$APP_HOME/vendor/xeokit-metadata"
