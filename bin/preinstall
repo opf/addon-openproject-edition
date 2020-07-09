@@ -61,7 +61,7 @@ if [ "$edition" = "bim" ]; then
 		mv IfcConvert "$APP_HOME/bin/IfcConvert"
 	fi
 
-	if ! ${CLI} run xeokit-metadata --help &>/dev/null ; then
+	if ! ${CLI} run which xeokit-metadata &>/dev/null ; then
 		echo "Fetching and installing xeokit-metadata..."
 		wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/1.0.0/xeokit-metadata-linux-x64.tar.gz
 		tar -zxvf xeokit-metadata-linux-x64.tar.gz
