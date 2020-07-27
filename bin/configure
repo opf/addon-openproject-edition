@@ -4,7 +4,7 @@ set -e
 
 . "${INSTALLER_DIR}/wizard"
 
-unsupported_distribution() {
+supported_distribution() {
 	case $(wiz_fact "osfamily") in
 		"debian")
 			case $(wiz_fact "osversion") in
@@ -21,17 +21,16 @@ unsupported_distribution() {
 }
 
 input_start() {
-	if unsupported_distribution ; then
-		wiz_set "openproject/edition" "classic"
-		STATE="done"
-	else
-
+	if supported_distribution ; then
 		wiz_put "openproject/edition"
 		if wiz_ask ; then
 			STATE="done"
 		else
 			STATE="cancel"
 		fi
+	else
+		wiz_set "openproject/edition" "classic"
+		STATE="done"
 	fi
 }
 
