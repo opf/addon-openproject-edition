@@ -25,6 +25,11 @@ if [ "$edition" = "bim" ]; then
 					apt-get update -qq
 					apt-get install -y liboce-foundation-dev liboce-modeling-dev liboce-ocaf-dev liboce-visualization-dev liboce-ocaf-lite-dev dotnet-runtime-3.1
                                         ;;
+				"10")
+					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+					wget -q0 /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/10/prod.list
+					apt-get update -qq
+					apt-get install -y liboce-foundation-dev liboce-modeling-dev liboce-ocaf-dev liboce-visualization-dev liboce-ocaf-lite-dev dotnet-runtime-3.1
                         esac
 			;;
 	esac
