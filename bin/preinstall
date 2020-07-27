@@ -11,11 +11,6 @@ cleanup() {
 	rm -rf "$tmpdir"
 }
 
-unsupported_distribution() {
-	echo "This distribution doesn't support OpenProject BIM edition yet."
-	exit 1
-}
-
 trap cleanup INT TERM EXIT
 
 if [ "$edition" = "bim" ]; then
@@ -30,13 +25,7 @@ if [ "$edition" = "bim" ]; then
 					apt-get update -qq
 					apt-get install -y liboce-foundation-dev liboce-modeling-dev liboce-ocaf-dev liboce-visualization-dev liboce-ocaf-lite-dev dotnet-runtime-3.1
                                         ;;
-				*)
-					unsupported_distribution
-					;;
                         esac
-			;;
-		*)
-			unsupported_distribution
 			;;
 	esac
 
