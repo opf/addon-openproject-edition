@@ -5,13 +5,20 @@ set -e
 . "${INSTALLER_DIR}/wizard"
 
 supported_distribution() {
-	case $(wiz_fact "osfamily") in
+	case "$(wiz_fact "osfamily")" in
 		"debian")
 			case $(wiz_fact "osversion") in
 				"20.04")
 					return 0
 					;;
 				"10")
+					return 0
+					;;
+			esac
+			;;
+		"redhat")
+			case "$(wiz_fact "osversion")" in
+				8*)
 					return 0
 					;;
 			esac
