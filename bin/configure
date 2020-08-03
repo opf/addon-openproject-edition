@@ -36,7 +36,7 @@ input_start() {
 			STATE="cancel"
 		fi
 	else
-		wiz_set "openproject/edition" "classic"
+		wiz_set "openproject/edition" "default"
 		STATE="done"
 	fi
 }

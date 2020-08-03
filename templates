@@ -1,8 +1,8 @@
 Template: openproject/edition
 Type: select
-Choices: classic, bim
+Choices: default, bim
 Translations: OpenProject, OpenProject BIM
-Default: classic
+Default: default
 Description: Select your OpenProject Edition
  "OpenProject" is the default edition, useful for general project management.
  .
