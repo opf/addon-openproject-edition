@@ -11,6 +11,9 @@ supported_distribution() {
 				"20.04")
 					return 0
 					;;
+				"18.04")
+					return 0
+					;;
 				"10")
 					return 0
 					;;
