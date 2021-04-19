@@ -51,7 +51,7 @@ if [ "$edition" = "bim" ]; then
 
 	if ! ${CLI} run which gltf2xkt &>/dev/null ; then
 		echo "Fetching and installing xeokit-gltf-to-xkt..."
-		${CLI} run npm install @xeokit/xeokit-gltf-to-xkt@0.0.3
+		${CLI} run npm install @xeokit/xeokit-gltf-to-xkt@1.0.0
 	fi
 
 	if ! ${CLI} run which COLLADA2GLTF &>/dev/null ; then
