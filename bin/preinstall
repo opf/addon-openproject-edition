@@ -49,7 +49,7 @@ if [ "$edition" = "bim" ]; then
 
 	cd $tmpdir
 
-	if ! ${CLI} run which gltf2xkt &>/dev/null ; then
+	if [ "$(${CLI} run gltf2xkt --version 2>&1)" != "1.0.0" ] ; then
 		echo "Fetching and installing xeokit-gltf-to-xkt..."
 		${CLI} run npm install @xeokit/xeokit-gltf-to-xkt@1.0.0
 	fi
